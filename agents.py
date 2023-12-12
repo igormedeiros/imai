@@ -1,5 +1,14 @@
 import autogen
-from llm_config import (llm_config_neural_chat, llm_config_codellama, ...)
+from llm_config import (
+    llm_config_neural_chat,
+    llm_config_codellama,
+    llm_config_mistral,
+    llm_config_sqlcoder,
+    llm_config_wizardcoder,
+    llm_config_orca_mini,
+    llm_config_llama2,
+    llm_config_starling_lm
+)
 
 # Definição dos agentes com suas respectivas configurações
 product_owner = autogen.AssistantAgent(

@@ -26,7 +26,7 @@ config_list_orca_mini = create_config_list(8035)
 config_list_llama2 = create_config_list(8036)
 config_list_wizardcoder = create_config_list(8037)
 config_list_sqlcoder = create_config_list(8038)
-
+0
 # Criando as configurações LLM
 llm_config_mistral = create_llm_config(config_list_mistral)
 llm_config_codellama = create_llm_config(config_list_codellama)
