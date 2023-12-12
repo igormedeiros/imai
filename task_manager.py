@@ -53,8 +53,12 @@ class TaskManager:
         pass
 
     def update_task_details(self, agent_name, new_details):
-        # Implementar lógica para atualizar detalhes da tarefa
-        pass
+        if agent_name in self.tasks:
+            self.tasks[agent_name] = new_details
+            self.log_task_change(agent_name, "Detalhes da tarefa atualizados")
+            return "Detalhes da tarefa atualizados com sucesso"
+        else:
+            return "Agente não possui uma tarefa atribuída"
 
     def get_task_report(self):
         report = "Relatório de Tarefas:\n"
@@ -63,3 +67,20 @@ class TaskManager:
             priority = self.task_priority.get(agent, "N/A")
             report += f"Agente: {agent}, Tarefa: {task}, Status: {status}, Prioridade: {priority}\n"
         return report
+        
+    def check_task_status(self, agent_name):
+        if agent_name in self.completed_tasks:
+            return "Concluída"
+        elif agent_name in self.tasks:
+            progress = self.task_progress[agent_name]
+            if progress < 100:
+                return f"Em progresso ({progress}% completo)"
+            else:
+                return "Aguardando confirmação de conclusão"
+        else:
+            return "Nenhuma tarefa atribuída"
+
+    def get_current_task_id(self, agent_name):
+        # Implement your logic here to get the current task ID
+        pass
+

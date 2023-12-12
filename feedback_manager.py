@@ -1,39 +1,27 @@
 class FeedbackManager:
     def __init__(self):
-        self.feedback_records = {}
+        # Dicionário para armazenar feedbacks, chave é o ID da tarefa e o valor é uma lista de feedbacks
+        self.feedbacks = {}
+        # Dicionário para rastrear se o feedback foi lido ou não
+        self.feedback_read_status = {}
 
-    def collect_feedback(self, task_id, user_input):
-        # Armazena o feedback do usuário para um determinado ID de tarefa
-        if task_id not in self.feedback_records:
-            self.feedback_records[task_id] = []
-        self.feedback_records[task_id].append(user_input)
+    def add_feedback(self, task_id, feedback):
+        # Adiciona um novo feedback para uma tarefa específica
+        if task_id not in self.feedbacks:
+            self.feedbacks[task_id] = []
+        self.feedbacks[task_id].append(feedback)
+        # Marca o feedback mais recente como não lido
+        self.feedback_read_status[task_id] = False
 
-    def get_feedback(self, task_id):
-        # Retorna o feedback para um determinado ID de tarefa, se existir
-        return self.feedback_records.get(task_id, None)
+    def mark_feedback_as_read(self, task_id):
+        # Marca todos os feedbacks para uma tarefa como lidos
+        if task_id in self.feedback_read_status:
+            self.feedback_read_status[task_id] = True
 
-    def remove_feedback(self, task_id):
-        # Remove o feedback associado a um ID de tarefa específico
-        if task_id in self.feedback_records:
-            del self.feedback_records[task_id]
-
+    def has_new_feedback(self, task_id):
+        # Verifica se há feedbacks não lidos para uma tarefa específica
+        return self.feedback_read_status.get(task_id, False)
+    
     def get_all_feedback(self):
-        # Retorna todos os registros de feedback
-        return self.feedback_records
-
-    def summarize_feedback(self):
-        # Resumo de todos os feedbacks coletados (pode ser expandido para uma análise mais detalhada)
-        summary = {}
-        for task_id, feedback_list in self.feedback_records.items():
-            summary[task_id] = {
-                "count": len(feedback_list),
-                "feedback": feedback_list
-            }
-        return summary
-
-    def user_requested_exit(self):
-        # Verifica se algum feedback de usuário indica um pedido de encerramento
-        for feedback_list in self.feedback_records.values():
-            if any("TERMINATE" in feedback for feedback in feedback_list):
-                return True
-        return False
+        # Retorna todos os IDs de tarefas para os quais há feedback
+        return list(self.feedbacks.keys())
