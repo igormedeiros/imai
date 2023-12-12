@@ -1,5 +1,4 @@
 import autogen
-from autogen.llm_config import LLMConfig
 
 # Funções utilitárias para a criação de configurações de LLM
 def create_config_list(port):
@@ -11,11 +10,11 @@ def create_config_list(port):
     ]
 
 def create_llm_config(config_list):
-    return {
-        "cache_seed": 42, 
-        "temperature": 0,
-        "config_list": config_list,
-    }
+    return LLMConfig(
+        cache_seed=42,
+        temperature=0,
+        config_list=config_list
+    )
 
 # Criando as listas de configuração para os diferentes modelos
 config_list_mistral = create_config_list(8031)
@@ -26,7 +25,14 @@ config_list_orca_mini = create_config_list(8035)
 config_list_llama2 = create_config_list(8036)
 config_list_wizardcoder = create_config_list(8037)
 config_list_sqlcoder = create_config_list(8038)
-0
+
+def create_llm_config(config_list):
+    return {
+        "cache_seed": 42, 
+        "temperature": 0,
+        "config_list": config_list,
+    }
+    
 # Criando as configurações LLM
 llm_config_mistral = create_llm_config(config_list_mistral)
 llm_config_codellama = create_llm_config(config_list_codellama)

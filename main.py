@@ -12,7 +12,7 @@ def main():
     agents = get_agents()
 
     # Lê e analisa a especificação do projeto
-    project_data = read_project_specification('path/to/project_specification.txt')
+    project_data = read_project_specification('specification/software_reqs.txt')
     parsed_data = parse_project_data(project_data)
 
     # Define a tarefa inicial com base na especificação do projeto

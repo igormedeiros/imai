@@ -1,4 +1,3 @@
-import autogen
 from llm_config import (
     llm_config_neural_chat,
     llm_config_codellama,
@@ -10,8 +9,11 @@ from llm_config import (
     llm_config_starling_lm
 )
 
+from autogen import AssistantAgent
+
+
 # Definição dos agentes com suas respectivas configurações
-product_owner = autogen.AssistantAgent(
+product_owner = AssistantAgent(
     name="Product Owner",
     llm_config=llm_config_neural_chat,
     system_message="""
@@ -19,7 +21,7 @@ product_owner = autogen.AssistantAgent(
     """
 )
 
-scrum_master = autogen.AssistantAgent(
+scrum_master = AssistantAgent(
     name="Scrum Master",
     llm_config=llm_config_neural_chat,
     system_message="""
@@ -27,7 +29,7 @@ scrum_master = autogen.AssistantAgent(
     """
 )
 
-frontend_developer = autogen.AssistantAgent(
+frontend_developer = AssistantAgent(
     name="Frontend Developer",
     llm_config=llm_config_codellama,
     system_message="""
@@ -35,7 +37,7 @@ frontend_developer = autogen.AssistantAgent(
     """
 )
 
-backend_developer = autogen.AssistantAgent(
+backend_developer = AssistantAgent(
     name="Backend Developer",
     llm_config=llm_config_codellama,
     system_message="""
@@ -43,7 +45,7 @@ backend_developer = autogen.AssistantAgent(
     """
 )
 
-data_scientist = autogen.AssistantAgent(
+data_scientist = AssistantAgent(
     name="Data Scientist",
     llm_config=llm_config_mistral,
     system_message="""
@@ -51,7 +53,7 @@ data_scientist = autogen.AssistantAgent(
     """
 )
 
-sql_coder = autogen.AssistantAgent(
+sql_coder = AssistantAgent(
     name="SQL Coder",
     llm_config=llm_config_sqlcoder,
     system_message="""
@@ -59,7 +61,7 @@ sql_coder = autogen.AssistantAgent(
     """
 )
 
-ai_engineer = autogen.AssistantAgent(
+ai_engineer = AssistantAgent(
     name="AI Engineer",
     llm_config=llm_config_wizardcoder,
     system_message="""
@@ -67,7 +69,7 @@ ai_engineer = autogen.AssistantAgent(
     """
 )
 
-qa_tester = autogen.AssistantAgent(
+qa_tester = AssistantAgent(
     name="QA Tester",
     llm_config=llm_config_orca_mini,
     system_message="""
@@ -75,7 +77,7 @@ qa_tester = autogen.AssistantAgent(
     """
 )
 
-documenter = autogen.AssistantAgent(
+documenter = AssistantAgent(
     name="Documenter",
     llm_config=llm_config_orca_mini,
     system_message="""
@@ -83,7 +85,7 @@ documenter = autogen.AssistantAgent(
     """
 )
 
-code_reviewer = autogen.AssistantAgent(
+code_reviewer = AssistantAgent(
     name="Code Reviewer",
     llm_config=llm_config_codellama,
     system_message="""
@@ -91,7 +93,7 @@ code_reviewer = autogen.AssistantAgent(
     """
 )
 
-software_architect = autogen.AssistantAgent(
+software_architect = AssistantAgent(
     name="Software Architect",
     llm_config=llm_config_llama2,
     system_message="""
@@ -99,7 +101,7 @@ software_architect = autogen.AssistantAgent(
     """
 )
 
-security_engineer = autogen.AssistantAgent(
+security_engineer = AssistantAgent(
     name="Security Engineer",
     llm_config=llm_config_llama2,
     system_message="""
@@ -107,7 +109,7 @@ security_engineer = autogen.AssistantAgent(
     """
 )
 
-ui_ux_designer = autogen.AssistantAgent(
+ui_ux_designer = AssistantAgent(
     name="UI/UX Designer",
     llm_config=llm_config_starling_lm,
     system_message="""
@@ -115,7 +117,7 @@ ui_ux_designer = autogen.AssistantAgent(
     """
 )
 
-devops_engineer = autogen.AssistantAgent(
+devops_engineer = AssistantAgent(
     name="DevOps Engineer",
     llm_config=llm_config_codellama,
     system_message="""
@@ -123,7 +125,7 @@ devops_engineer = autogen.AssistantAgent(
     """
 )
 
-tech_lead = autogen.AssistantAgent(
+tech_lead = AssistantAgent(
     name="Tech Lead",
     llm_config=llm_config_llama2,
     system_message="""
@@ -131,7 +133,7 @@ tech_lead = autogen.AssistantAgent(
     """
 )
 
-compliance_agent = autogen.AssistantAgent(
+compliance_agent = AssistantAgent(
     name="Compliance Agent",
     llm_config=llm_config_codellama,
     system_message="""
