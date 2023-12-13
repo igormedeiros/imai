@@ -20,7 +20,7 @@ ollama serve &
 ```
 
 
-### Step 3. Download and execute the specific models based on your role:
+### Step 2. Download and execute the specific models based on your role:
 
 - For Data Scientists or AI Engineers Agents:
   ```
@@ -62,7 +62,7 @@ ollama serve &
   ollama run sqlcoder &
   ```
 
-### Step 4 - Litellm (Expose Models as API)
+### Step 3 - Expose Models as API with Litellm 
 To access the models via API, you can use Litellm. Here are the instructions:
 
 1. Create and activate conda env
@@ -121,7 +121,7 @@ pip install litellm
   litellm --model ollama/sqlcoder --port 8038 &
   ```
 
-### Step 5 - Run the Application
+### Step 4 - Run the Application
 To run the application, follow these instructions:
 
 #### 1. Activate your Conda environment with Python 3.11:
