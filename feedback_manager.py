@@ -1,27 +1,38 @@
+from autogen.core import AutoGen
+
 class FeedbackManager:
     def __init__(self):
-        # Dicionário para armazenar feedbacks, chave é o ID da tarefa e o valor é uma lista de feedbacks
         self.feedbacks = {}
-        # Dicionário para rastrear se o feedback foi lido ou não
-        self.feedback_read_status = {}
+        self.autogen = AutoGen()  # Inicializa o AutoGen
 
     def add_feedback(self, task_id, feedback):
-        # Adiciona um novo feedback para uma tarefa específica
         if task_id not in self.feedbacks:
             self.feedbacks[task_id] = []
         self.feedbacks[task_id].append(feedback)
-        # Marca o feedback mais recente como não lido
-        self.feedback_read_status[task_id] = False
 
-    def mark_feedback_as_read(self, task_id):
-        # Marca todos os feedbacks para uma tarefa como lidos
-        if task_id in self.feedback_read_status:
-            self.feedback_read_status[task_id] = True
+    def process_feedback(self):
+        for task_id, feedbacks in self.feedbacks.items():
+            for feedback in feedbacks:
+                # Aqui você pode implementar lógica específica para analisar o feedback
+                # e criar ou ajustar tarefas no AutoGen conforme necessário
+                if "ajuste" in feedback:
+                    self.adjust_task(task_id, feedback)
+                elif "nova tarefa" in feedback:
+                    self.create_new_task(feedback)
 
-    def has_new_feedback(self, task_id):
-        # Verifica se há feedbacks não lidos para uma tarefa específica
-        return self.feedback_read_status.get(task_id, False)
-    
-    def get_all_feedback(self):
-        # Retorna todos os IDs de tarefas para os quais há feedback
-        return list(self.feedbacks.keys())
+    def adjust_task(self, task_id, feedback):
+        # Implement the logic to adjust an existing task based on feedback
+        # For example, modify the parameters of the task in AutoGen
+        new_params = self.analyze_feedback(feedback)  # Analyze feedback to get new parameters
+        self.autogen.modify_task(task_id, new_params)
+
+    def create_new_task(self, feedback):
+        # Implement the logic to create a new task based on feedback
+        # For example, create a new task in AutoGen based on the information from the feedback
+        task_description = self.extract_task_from_feedback(feedback)  # Extract task description from feedback
+        new_task_id = self.autogen.create_task(task_description)
+        return new_task_id
+
+
+    def get_feedback_for_task(self, task_id):
+        return self.feedbacks.get(task_id, [])

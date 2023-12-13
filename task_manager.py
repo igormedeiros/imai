@@ -1,86 +1,42 @@
-import random
-import datetime
+from autogen.core import AutoGen
 
 class TaskManager:
     def __init__(self):
+        self.autogen = AutoGen()
         self.tasks = {}
-        self.completed_tasks = {}
-        self.task_progress = {}
-        self.task_results = {}
-        self.task_priority = {}
-        self.task_changes_log = {}
+        self.completed_tasks = set()
 
-    def define_initial_task(self, project_specification):
-        initial_task = f"Análise Inicial: {project_specification}"
-        return initial_task
+    def delegate_task(self, agent_name, task_description):
+        # Cria uma tarefa para o AutoGen
+        task_id = self.autogen.create_task(agent_name, task_description)
+        self.tasks[task_id] = {
+            "agent": agent_name,
+            "description": task_description,
+            "status": "pending"
+        }
 
-    def delegate_task(self, agent_name, task, priority=5):
-        self.tasks[agent_name] = task
-        self.task_progress[agent_name] = 0
-        self.task_priority[agent_name] = priority
-        self.log_task_change(agent_name, "Tarefa delegada")
-        return "Tarefa delegada"
+    def update_task_progress(self):
+        # Atualiza o progresso das tarefas através do AutoGen
+        for task_id in list(self.tasks):
+            status = self.autogen.get_task_status(task_id)
+            self.tasks[task_id]["status"] = status
+            if status == "completed":
+                self.complete_task(task_id)
 
-    def cancel_task(self, agent_name):
-        if agent_name in self.tasks:
-            del self.tasks[agent_name]
-            self.log_task_change(agent_name, "Tarefa cancelada")
-            print(f"Tarefa do agente '{agent_name}' cancelada.")
+    def complete_task(self, task_id):
+        # Processa uma tarefa completada
+        result = self.autogen.get_task_result(task_id)
+        self.save_task_result(task_id, result)
+        self.completed_tasks.add(task_id)
+        del self.tasks[task_id]
 
-    def log_task_change(self, agent_name, change):
-        time_stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        if agent_name not in self.task_changes_log:
-            self.task_changes_log[agent_name] = []
-        self.task_changes_log[agent_name].append((time_stamp, change))
+    def save_task_result(self, task_id, result):
+        # Salva o resultado da tarefa em um arquivo
+        filename = f"task_result_{task_id}.txt"
+        with open(filename, 'w') as file:
+            file.write(result)
+        print(f"Resultado da tarefa {task_id} salvo em {filename}")
 
-    def simulate_task_progress(self):
-        for agent in self.tasks:
-            if self.task_progress[agent] < 100:
-                self.task_progress[agent] += random.randint(5, 20)
-                self.task_progress[agent] = min(self.task_progress[agent], 100)
-                if self.task_progress[agent] == 100:
-                    self.complete_task(agent)
-
-    def complete_task(self, agent_name):
-        self.completed_tasks[agent_name] = True
-        result = f"Resultado da tarefa do agente '{agent_name}'"
-        self.task_results[agent_name] = result
-        self.log_task_change(agent_name, "Tarefa concluída")
-        print(f"Tarefa do agente '{agent_name}' concluída com resultado: {result}")
-
-    def get_overdue_tasks(self):
-        # Implementar lógica para identificar tarefas atrasadas
-        pass
-
-    def update_task_details(self, agent_name, new_details):
-        if agent_name in self.tasks:
-            self.tasks[agent_name] = new_details
-            self.log_task_change(agent_name, "Detalhes da tarefa atualizados")
-            return "Detalhes da tarefa atualizados com sucesso"
-        else:
-            return "Agente não possui uma tarefa atribuída"
-
-    def get_task_report(self):
-        report = "Relatório de Tarefas:\n"
-        for agent, task in self.tasks.items():
-            status = self.check_task_status(agent)
-            priority = self.task_priority.get(agent, "N/A")
-            report += f"Agente: {agent}, Tarefa: {task}, Status: {status}, Prioridade: {priority}\n"
-        return report
-        
-    def check_task_status(self, agent_name):
-        if agent_name in self.completed_tasks:
-            return "Concluída"
-        elif agent_name in self.tasks:
-            progress = self.task_progress[agent_name]
-            if progress < 100:
-                return f"Em progresso ({progress}% completo)"
-            else:
-                return "Aguardando confirmação de conclusão"
-        else:
-            return "Nenhuma tarefa atribuída"
-
-    def get_current_task_id(self, agent_name):
-        # Implement your logic here to get the current task ID
-        pass
-
+    def all_tasks_completed(self):
+        # Verifica se todas as tarefas foram concluídas
+        return not self.tasks
